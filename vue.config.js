@@ -9,5 +9,5 @@ module.exports = {
   },
   publicPath: './',
   productionSourceMap: false,
-  outputDir: './admin'
+  outputDir: './public_admin'
 }

@@ -4,20 +4,19 @@
       <div class="text-center">
       </div>
       <div class="text-center" :class="isSidebarExpand ? 'ml-2' : 'mt-2'">
-        <img v-if="!$isMobile" src="@/assets/logo.svg" alt="logo" height="60" />
+        <img v-if="!$isMobile" src="@/assets/logo.png" alt="logo" height="60" />
         <!-- <el-button circle plain type="primary" :icon="isSidebarExpand ? 'el-icon-arrow-left' : 'el-icon-arrow-right'" @click="handleSidebarExpand" /> -->
       </div>
     </div>
     <div class="wrapper-sidebar-menu">
       <ul class="sidebar-menu">
-        <template v-for="(sidebar, index) in sidebars">
-          <sidebar-item
-            :sidebar="sidebar"
-            :key="'sidebar' + index"
-            :index="index"
-            @active_item="handleClickItem"
-          ></sidebar-item>
-        </template>
+        <sidebar-item
+          v-for="(sidebar, index) in sidebars"
+          :sidebar="sidebar"
+          :key="index"
+          :index="index"
+          @active_item="handleClickItem"
+        ></sidebar-item>
       </ul>
       <!-- <template v-if="isHeader">
         <el-collapse accordion class="px-3 py-0 border-0">
@@ -53,12 +52,13 @@ export default {
   },
   data() {
     return {
-      sidebars: sidebars,
+      sidebars: [],
       isSidebarExpand: false
     }
   },
   created() {
-    console.log(this.sidebars);
+    let role = this.$store.getters.user.role || 'employee'
+    this.sidebars = sidebars[role]
   },
   methods: {
     handleClickItem() {

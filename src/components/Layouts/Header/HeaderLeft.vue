@@ -16,7 +16,7 @@
     </div>
     <el-drawer :visible.sync="drawer" :show-close="false" custom-class="background-drawer" :withHeader="false" direction="ltr" size="90vw">
       <div class="text-center py-4">
-        <img src="@/assets/logo.svg" alt="logo" style="width: 100%; max-width: 200px"/>
+        <img src="@/assets/logo.png" alt="logo" style="width: 100%; max-width: 200px"/>
       </div>
       <account-info :in-drawer="true" />
       <sidebar :is-header="true" @active_item="drawer=false" />
