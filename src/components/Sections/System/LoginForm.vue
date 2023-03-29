@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item>
           <el-button class="btn-block" type="primary" icon="el-icon-unlock" native-type="submit">
-            Login</el-button
+            Đăng nhập</el-button
           >
         </el-form-item>
         <!-- <div class="text-center">
@@ -52,31 +52,9 @@ export default {
         return false
       }
       this.isLoading = true
-      const { data } = await this.$store.dispatch('login', this.form).catch(() => ({ data: false }))
-      if (data && data.code == 'success') {
-        if (data.is_2_factor) {
-          destroyOne('auth', 'trust_computer_hash') // flush trust computer code
-          this.authType = 'two_factor'
-          if (data.default_method) {
-            this.authenticationMethod = data.default_method
-            this.currentForm = 'verify_code'
-          } else {
-            this.currentForm = 'select_2_factor_method'
-          }
-          this.verification.hash = data.hash
-          this.verification.user_id = data.user_id
-          this.verification.code = ''
-        } else {
-          // setTimeout(() => {
-          //   console.log('meta', this.metaPath);
-          //   if (this.metaPath) {
-          //     this.$router.push(metaPath)
-          //   } else {
-          //     this.$router.push('/')
-          //   }
-          // }, 1000)
-          this.$router.push('/')
-        }
+      const success = await this.$store.dispatch('login', this.form).catch(() => ({ data: false }))
+      if (success) {
+        this.$router.push('/')
       }
       this.isLoading = false
     },

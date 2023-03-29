@@ -60,13 +60,13 @@
 
 <script>
 const ModelCode = 'user'
-import { addData, saveData, getDetail } from "@/api/user";
+import { saveData, getDetail } from "@/api/user";
 export default {
   data: function () {
     return {
       form: {
         address: {},
-        role: 'user'
+        role: 'employee'
       },
       hasChange: false,
     }
@@ -103,7 +103,27 @@ export default {
       ];
     },
   },
+  created() {
+    this.loadData(this.$route.params.id)
+  },
   methods: {
+    loadData (currentId) {
+      if (!currentId && this.$route.params.id) {
+        currentId = this.$route.params.id
+      }
+
+      this.$wrLoading(true);
+      getDetail(currentId).then(({data}) => {
+        if (data.success) {
+          this.$set(this, 'form', data.doc)
+          this.hasChange = false;
+        }
+      }).catch((err) => {
+        console.log(err)
+      }).finally(() => {
+        this.$wrLoading(false);
+      })
+    },
     saveAndContinue() {
       this.handleSave(true);
     },
@@ -114,27 +134,19 @@ export default {
         } else {
           this.$wrLoading(true)
           let currentId
-          if (this.form._id) {
-            await saveData(this.form, this.form._id).then(({data}) => {
-               if (data.code === 'success') {
-                if (isContinue === false) {
-                  this.$router.push({ name: `${ModelCode}_main` });
+          await saveData(this.form).then(({data}) => {
+            if (data.success == true) {
+              if (isContinue === false) {
+                this.$router.push({ name: `${ModelCode}_main` });
+              } else {
+                if (data.doc) {
+                  currentId = data.doc._id;
                 } else {
                   currentId = this.form._id;
                 }
               }
-            })
-          } else {
-            await addData(this.form).then(({data}) => {
-              if (data.code === 'success') {
-                if (isContinue === false) {
-                  this.$router.push({ name: `${ModelCode}_main` });
-                } else {
-                  currentId = data.data._id;
-                }
-              }
-            })
-          }
+            }
+          })
 
           this.$wrLoading(false)
 
@@ -146,36 +158,12 @@ export default {
               });
             }
 
-            getDetail(currentId).then(({data}) => {
-              this.$store.dispatch("reRender")
-              this.$set(this, 'form', data.data)
-            }).catch((err) => {
-              console.log(err)
-            });
+            this.$store.dispatch("reRender")
+            this.loadData(currentId)
           }
         }
       })
     },
-  },
-  created() {
-    if (this.$route.params.id) {
-      this.$wrLoading(true);
-      getDetail(this.$route.params.id).then(({data}) => {
-        if (data.code == 'success') {
-          this.$set(this, 'form', data.data)
-          this.$nextTick(() => {
-            this.hasChange = false;
-          });
-        }
-        this.$store.dispatch("setPageTitle", `Chỉnh sửa`);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        this.$wrLoading(false);
-      })
-    }
   }
 }
 </script>

@@ -85,12 +85,13 @@ export default {
       this.$router.push({ name: `${ModelCode}_edit`, params: { id: row._id } })
     },
     confirmDelete(row) {
-      this.$confirm(`Xác nhận xóa ${ModelCode} "${row.title}"?`, 'Warning', {
-        confirmButtonText: 'Delete',
+      this.$confirm(`Xác nhận xóa ${ModelCode}?`, 'Cảnh báo', {
+        confirmButtonText: 'Xóa',
         type: 'warning'
       }).then(() => {
         handleDelete(row._id).then(({data}) => {
-          if (data.code === 'success') {
+          console.log(data);
+          if (data.success) {
             this.loadData()
           }
         }).finally(() => {
@@ -100,8 +101,8 @@ export default {
     },
     loadData() {
       getCollection({ pagination: this.pagination }).then(({data}) => {
-        if (data.code == 'success') {
-          this.tableData = data.data
+        if (data.success) {
+          this.tableData = data.docs
 
           if (data.total) {
             this.pagination.count = data.total

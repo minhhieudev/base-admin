@@ -25,10 +25,10 @@ service.interceptors.request.use(
 
 const beforeResponse = (response) => {
   if ('data' in response) {
-    if ('msg' in response.data) {
+    if ('message' in response.data) {
       vue.$notify({
-        type: response.data.code,
-        message: typeof response.data.msg == 'object' ? response.data.msg.msg : response.data.msg,
+        type: response.data.status,
+        message: typeof response.data.message == 'object' ? response.data.message.message : response.data.message,
         dangerouslyUseHTMLString: response.data.dangerouslyUseHTMLString,
         showClose: true,
         duration: 7000,
@@ -54,7 +54,7 @@ service.interceptors.response.use(response => {
     // if 401 || 400 status code then redirect to login route
     if (err.response.status === 401) {
       store.dispatch('tokenNotValid').then(() => {
-        route.push({path: '/login'}).catch(()=>{})  //added catch by tang
+        route.push({path: '/login'}).catch(()=>{})
       })
       return Promise.reject(err.response)
     }

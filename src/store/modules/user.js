@@ -60,17 +60,16 @@ const user = {
     },
     login ({commit}, userInfo) {
       return new Promise((resolve, reject) => {
-        login(userInfo).then(e => {
-          let data = e.data
-          let accessToken = data.data.accessToken
-          let userData = data.data
-          if (data.code == 'success') {
+        login(userInfo).then(({ data }) => {
+          let accessToken = data.user.accessToken
+          let userData = data.user
+          if (data.success) {
             commit('SET_TOKEN', accessToken)
             commit('SET_USER', userData)
             setToken(accessToken)
             setUser(userData)
           }
-          resolve(e)
+          resolve(true)
         }).catch(err => {
           reject(err)
         })

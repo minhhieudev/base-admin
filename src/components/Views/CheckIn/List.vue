@@ -67,7 +67,7 @@ export default {
     },
     loadData() {
       getCollection({ pagination: this.pagination }).then(({data}) => {
-        if (data.code == 'success') {
+        if (data.success) {
           this.tableData = data.data
 
           if (data.total) {

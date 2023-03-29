@@ -110,7 +110,7 @@ export default {
           type: 'warning'
         }).then(() => {
           handleDelete(mediaSelected._id).then((res) => {
-            if (res.data.code == 'success') {
+            if (res.data.success) {
               this.loadData()
             }
           }).finally(() => {
@@ -121,7 +121,7 @@ export default {
     },
     loadData() {
       getCollection({ pagination: this.pagination }).then(({data}) => {
-        if (data.code == 'success') {
+        if (data.success) {
           this.gridData = data.data
           if (data.total) {
             this.totalData = data.total

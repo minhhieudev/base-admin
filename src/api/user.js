@@ -23,19 +23,11 @@ export function getDetail (id) {
   })
 }
 
-export function addData (data) {
+export function saveData (data) {
   return request({
     url: `/${modelCode}`,
     method: 'post',
-    data: data
-  })
-}
-
-export function saveData (data, id) {
-  return request({
-    url: `/${modelCode}/${id}`,
-    method: 'put',
-    data: data
+    data,
   })
 }
 
