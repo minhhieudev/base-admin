@@ -15,12 +15,25 @@ export default {
       url: '/user',
       icon: 'layers',
     },
+    {
+      name: 'Cài đặt',
+      url: '/setting',
+      icon: 'layers',
+    },
     
   ],
   employee: [
-
+    {
+      name: 'Check In',
+      url: '/checkin',
+      icon: 'layers',
+    },
   ],
   leader: [
-
+    {
+      name: 'Check In',
+      url: '/checkin',
+      icon: 'layers',
+    },
   ]
 }

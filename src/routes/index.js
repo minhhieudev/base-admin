@@ -8,14 +8,9 @@ import RootLayout from '@/components/Layouts/RootLayout'
 import NotFound from '@/components/GeneralView/NotFoundPage'
 
 // Model routes
-import articleRoutes from './children/article'
-import categoryRoutes from './children/category'
-import orderRoutes from './children/order'
-import productRoutes from './children/product'
 import userRoutes from './children/user'
-import vendorRoutes from './children/vendor'
-import metaRoutes from './children/meta'
-import articleCategoryRoutes from './children/article_category'
+import checkInRoute from './children/checkin'
+import settingRoute from './children/setting'
 
 Vue.use(Router)
 
@@ -49,14 +44,9 @@ let adminRoutes = {
         title: 'Dashboard'
       }
     },
-    ...articleRoutes,
-    ...categoryRoutes,
-    ...orderRoutes,
-    ...productRoutes,
+    ...settingRoute,
+    ...checkInRoute,
     ...userRoutes,
-    ...vendorRoutes,
-    ...metaRoutes,
-    ...articleCategoryRoutes
   ]
 }
 

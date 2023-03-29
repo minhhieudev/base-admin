@@ -24,7 +24,7 @@
           <el-form-item label="SĐT">
             <el-input v-model="form.phone" type="number"/>
           </el-form-item>
-          <el-form-item label="Địa chỉ">
+          <!-- <el-form-item label="Địa chỉ">
             <div class="field-box">
               <el-form-item label="home" class="mt-1">
                 <el-input v-model="form.address.home"/>
@@ -39,18 +39,19 @@
                 <el-input v-model="form.address.city"/>
               </el-form-item>
             </div>
-          </el-form-item>
-          <el-form-item label="Role">
+          </el-form-item> -->
+          <el-form-item label="Quyền">
             <el-select
               v-model="form.role"
               placeholder="Select">
-              <el-option label="User" value="user"></el-option>
-              <el-option label="Admin" value="admin"></el-option>
+              <el-option label="Thành viên" value="employee"></el-option>
+              <el-option label="Quản trị nhóm" value="leader"></el-option>
+              <el-option label="Quản trị" value="admin"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="Verified">
+          <!-- <el-form-item label="Verified">
             <el-switch v-model="form.verified"/>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </div>
     </el-card>

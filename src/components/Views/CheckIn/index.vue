@@ -1,28 +1,39 @@
 <template>
   <div class="">
     <el-card>
+      <CheckIn/>
       <el-table
         :data="tableData"
         style="width: 100%">
-        <el-table-column prop="createdAt" label="Thời gian đặt">
+        <el-table-column prop="createdAt" label="Thời gian">
           <template slot-scope="{row}">
-            {{ new Date(row.createdAt).toLocaleString() }}
+            {{ new Date(row.time).toLocaleString() }}
           </template>
         </el-table-column>
-        <el-table-column prop="subtotal_price" label="Tổng tiền"></el-table-column>
-        <el-table-column prop="status" label="Trạng thái">
+        <el-table-column prop="status" label="Trạng thái"></el-table-column>
+        <el-table-column prop="fullname" label="Nhân viên">
           <template slot-scope="{row}">
-            {{ statusMapped[row.status] }}
+            {{ row.user.fullname }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="type" label="Loại">
+          <template slot-scope="{row}">
+            <el-alert
+              style="width: 110px;"
+              :closable="false"
+              :title="row.type == 'checkin'?'Check In':'Check Out'"
+              :type="row.type == 'checkin'?'success':'warning'">
+            </el-alert>
           </template>
         </el-table-column>
         
-        <el-table-column :fixed="$isMobile?false:'right'" label="Thao tác" width="150">
+        <!-- <el-table-column :fixed="$isMobile?false:'right'" label="Thao tác" width="150">
           <template slot-scope="scope">
             <el-button @click.prevent="gotoDetail(scope.row)" type="success" size="mini">
               Xem
             </el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <div class="mt-2">
         <el-pagination
@@ -36,9 +47,11 @@
 </template>
 
 <script>
-const ModelCode = 'order';
-import { getCollection } from '@/api/order';
+const ModelCode = 'user_report';
+import CheckIn from './CheckIn.vue'
+import { getCollection } from '@/api/user_report';
 export default {
+  components: {CheckIn},
   data() {
     return {
       tableData: [],
@@ -47,12 +60,6 @@ export default {
         page_size: 25
       },
       totalData: 0,
-      statusMapped: {
-        hold: 'Tạm giữ',
-        confirmed: 'Đã xác nhận',
-        shipped: 'Đã gửi hàng',
-        complete: 'Đã giao'
-      }
     };
   },
   created () {
@@ -62,9 +69,9 @@ export default {
     /** some handle methods */
 
     /** default methods */
-    gotoDetail(row) {
-      this.$router.push({ name: `${ModelCode}_edit`, params: { id: row._id } })
-    },
+    // gotoDetail(row) {
+    //   this.$router.push({ name: `${ModelCode}_edit`, params: { id: row._id } })
+    // },
     loadData() {
       getCollection({ pagination: this.pagination }).then(({data}) => {
         if (data.code == 'success') {

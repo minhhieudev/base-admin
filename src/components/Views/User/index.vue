@@ -15,17 +15,21 @@
         <el-table-column prop="fullname" label="Tên"></el-table-column>
         <el-table-column prop="email" label="Email"></el-table-column>
         <el-table-column prop="phone" label="SĐT"></el-table-column>
-        <el-table-column prop="address" label="Địa chỉ">
+        <!-- <el-table-column prop="address" label="Địa chỉ">
           <template slot-scope="{row}">
             <span>{{ `${row.address.home} ,${row.address.ward}, ${row.address.district}, ${row.address.city}` }}</span>
           </template>
+        </el-table-column> -->
+        <el-table-column prop="role" label="Quyền">
+          <template slot-scope="{row}">
+            {{ roleMap[row.role] }}
+          </template>
         </el-table-column>
-        <el-table-column prop="role" label="Role"></el-table-column>
-        <el-table-column prop="verified" label="Verified">
+        <!-- <el-table-column prop="verified" label="Verified">
           <template slot-scope="{row}">
             <el-switch v-model="row.verified" disabled/>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :fixed="$isMobile?false:'right'" label="Thao tác" width="150">
           <template slot-scope="scope">
             <el-button @click.prevent="gotoDetail(scope.row)" type="success" size="mini">
@@ -59,7 +63,12 @@ export default {
         current_page: 1,
         page_size: 25
       },
-      totalData: 0
+      totalData: 0,
+      roleMap: {
+        admin: 'Quản trị',
+        leader: 'Quản trị nhóm',
+        employee: 'Thành viên',
+      }
     };
   },
   created () {

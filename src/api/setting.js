@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-const modelCode = 'products'
+const modelCode = 'setting'
 
 export function getCollection (data) {
   return request({
@@ -31,9 +31,9 @@ export function addData (data) {
   })
 }
 
-export function saveData (data, id) {
+export function saveData (data) {
   return request({
-    url: `/${modelCode}/${id}`,
+    url: `/${modelCode}`,
     method: 'put',
     data: data
   })

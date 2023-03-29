@@ -1,26 +1,25 @@
 <template>
   <div class="">
     <el-card>
-      <div class="d-flex justify-content-between my-2">
-        <div></div>
-        <div>
-          <el-button @click="goToAddNewPage()" type="primary" size="small">
-            Tạo mới
-          </el-button>
-        </div>
-      </div>
       <el-table
         :data="tableData"
         style="width: 100%">
-        <el-table-column prop="title" label="Tên"></el-table-column>
-        <el-table-column prop="slug" label="Slug"></el-table-column>
+        <el-table-column prop="createdAt" label="Thời gian đặt">
+          <template slot-scope="{row}">
+            {{ new Date(row.createdAt).toLocaleString() }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="subtotal_price" label="Tổng tiền"></el-table-column>
+        <el-table-column prop="status" label="Trạng thái">
+          <template slot-scope="{row}">
+            {{ statusMapped[row.status] }}
+          </template>
+        </el-table-column>
+        
         <el-table-column :fixed="$isMobile?false:'right'" label="Thao tác" width="150">
           <template slot-scope="scope">
             <el-button @click.prevent="gotoDetail(scope.row)" type="success" size="mini">
               Xem
-            </el-button>
-            <el-button @click.prevent="confirmDelete(scope.row)" type="danger" size="mini">
-              Xóa
             </el-button>
           </template>
         </el-table-column>
@@ -37,8 +36,8 @@
 </template>
 
 <script>
-const ModelCode = 'article-category';
-import { getCollection, handleDelete } from '@/api/article_category';
+const ModelCode = 'user_report';
+import { getCollection } from '@/api/user_report';
 export default {
   data() {
     return {
@@ -47,7 +46,13 @@ export default {
         current_page: 1,
         page_size: 25
       },
-      totalData: 0
+      totalData: 0,
+      statusMapped: {
+        hold: 'Tạm giữ',
+        confirmed: 'Đã xác nhận',
+        shipped: 'Đã gửi hàng',
+        complete: 'Đã giao'
+      }
     };
   },
   created () {
@@ -57,25 +62,8 @@ export default {
     /** some handle methods */
 
     /** default methods */
-    goToAddNewPage() {
-      this.$router.push({ name: `${ModelCode}_new` })
-    },
     gotoDetail(row) {
       this.$router.push({ name: `${ModelCode}_edit`, params: { id: row._id } })
-    },
-    confirmDelete(row) {
-      this.$confirm(`Xác nhận xóa ${ModelCode} "${row.title}"?`, 'Warning', {
-        confirmButtonText: 'Delete',
-        type: 'warning'
-      }).then(() => {
-        handleDelete(row._id).then(({data}) => {
-          if (data.code === 'success') {
-            this.loadData()
-          }
-        }).finally(() => {
-          this.$wrLoading(false)
-        })
-      }).catch()
     },
     loadData() {
       getCollection({ pagination: this.pagination }).then(({data}) => {
@@ -83,7 +71,7 @@ export default {
           this.tableData = data.data
 
           if (data.total) {
-            this.pagination.count = data.total
+            this.totalData = data.total
           }
         }
       })
