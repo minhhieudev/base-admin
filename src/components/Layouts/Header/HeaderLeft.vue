@@ -57,12 +57,11 @@ export default {
     },
     activeItem () {
       console.log(this.count);
-      let itemActive = sidebars.find(item => item.url == this.$router.history.current.path)
+      let itemActive = sidebars[this.$store.getters.user.role].find(item => item.url == this.$router.history.current.path)
       return itemActive || { name: '' }
     },
     menuItems () {
-      console.log(this.count);
-      return sidebars.filter(item => item.url != this.activeItem.url)
+      return sidebars[this.$store.getters.user.role].filter(item => item.url != this.activeItem.url)
     }
   },
 }
