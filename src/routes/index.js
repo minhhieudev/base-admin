@@ -11,6 +11,7 @@ import NotFound from '@/components/GeneralView/NotFoundPage'
 import userRoutes from './children/user'
 import checkInRoute from './children/checkin'
 import settingRoute from './children/setting'
+import taskStatusRoute from './children/task-status'
 
 Vue.use(Router)
 
@@ -44,6 +45,7 @@ let adminRoutes = {
         title: 'Dashboard'
       }
     },
+    ...taskStatusRoute,
     ...settingRoute,
     ...checkInRoute,
     ...userRoutes,

@@ -30,7 +30,7 @@ export default {
   created() {
     firstRequest().then(res => {
       if (res.data.success) {
-        this.$store.dispatch('reSetUser', res.data.customer)
+        //this.$store.dispatch('reSetUser', res.data.customer)
         this.$store.dispatch('setFirstData', res.data)
       }
 

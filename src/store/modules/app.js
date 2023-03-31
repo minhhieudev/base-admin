@@ -44,7 +44,8 @@ export default {
     orderStates: {},
     entities: {},
     breadcrumb: [],
-    isNewTheme: false
+    isNewTheme: false,
+    taskStatusMap: {},
   },
   mutations: {
     SET_PAGE_TITLE: function(state, title) {
@@ -106,6 +107,8 @@ export default {
       // }
       //state.acl = value['acl']
       //state.attributeInfo = value['attributeInfo']
+      //console.log(value);
+      state.taskStatusMap = value['taskStatus']
     },
     SET_WEBSITES: (state, value) => {
       state.websites = value

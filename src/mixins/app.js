@@ -137,6 +137,9 @@ export default {
     },
   },
   computed: {
+    taskStatusMap () {
+      return this.$store.getters.taskStatusMap
+    },
     userACL () {
       return this.$store.getters['acl']
     },

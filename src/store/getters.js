@@ -48,4 +48,5 @@ export default {
   overviewData: state => state.data.overviewData,
   package_groups: state => state.data.package_groups,
   orders: state => state.data.orders,
+  taskStatusMap: state => state.app.taskStatusMap,
 }
