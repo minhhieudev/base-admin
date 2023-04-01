@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-const modelCode = 'users'
+const modelCode = 'report-task'
 
 export function getCollection (data) {
   return request({

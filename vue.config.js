@@ -9,5 +9,8 @@ module.exports = {
   },
   publicPath: './',
   productionSourceMap: false,
-  outputDir: './public_admin'
+  outputDir: './public_admin',
+  devServer: {
+    port: 8081
+  },
 }

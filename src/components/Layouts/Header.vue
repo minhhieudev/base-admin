@@ -1,6 +1,7 @@
 <template>
   <header class="navbar app-navbar px-4 bg-white v2-theme">
     <header-left />
+    <Search />
     <div class="ml-auto mr-1" v-if="!$isMobile">
       <account-info></account-info>
     </div>
@@ -10,8 +11,9 @@
 <script>
 import AccountInfo from './Header/AccountInfo.vue'
 import HeaderLeft from './Header/HeaderLeft.vue'
+import Search from './Header/Search.vue'
 export default {
-  components: {AccountInfo, HeaderLeft},
+  components: {AccountInfo, HeaderLeft, Search},
   data() {
     return {
       showSelectClientDialog: false,

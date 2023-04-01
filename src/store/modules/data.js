@@ -1,22 +1,34 @@
-import { getOverviewData } from '@/api/helper'
+
 export default {
   state: {
-    news: [],
-    overviewData: {
-      apiKeyServices: [],
-      seoServices: [],
-      info: {}
+    users: {
+      docs: [],
+      total: 0
     },
-    package_groups: [],
-    orders: []
+    tasks: {
+      docs: [],
+      total: 0
+    },
+    epics: {
+      docs: [],
+      total: 0
+    },
+    sprints: {
+      docs: [],
+      total: 0
+    },
+
+    allEpics: [],
+    allSprints: [],
+  },
+  mutations: {
+    SET_DATA: function(state, payload) {
+      state[payload.key] = payload.data
+    },
   },
   actions: {
-    loadDashboardData: function({ state }) {
-      getOverviewData().then(rs => {
-        if (rs.data.success) {
-          state.overviewData = rs.data.overviewData
-        }
-      })
-    },
+    setData: function({ commit }, payload) {
+      commit('SET_DATA', payload)
+    }
   }
 }

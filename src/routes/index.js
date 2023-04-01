@@ -12,6 +12,8 @@ import userRoutes from './children/user'
 import checkInRoute from './children/checkin'
 import settingRoute from './children/setting'
 import taskStatusRoute from './children/task-status'
+import sprintRoute from './children/sprint'
+import epicRoute from './children/epic'
 
 Vue.use(Router)
 
@@ -45,6 +47,8 @@ let adminRoutes = {
         title: 'Dashboard'
       }
     },
+    ...sprintRoute,
+    ...epicRoute,
     ...taskStatusRoute,
     ...settingRoute,
     ...checkInRoute,

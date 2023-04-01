@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-const modelCode = 'users'
+const modelCode = 'comment'
 
 export function getCollection (data) {
   return request({

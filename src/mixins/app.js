@@ -1,6 +1,8 @@
 import { snakeCase } from 'lodash'
 import slugify from 'slugify'
 import { uploadImage } from '@/api/media'
+import * as epicAPI from '@/api/epic'
+import * as sprintAPI from '@/api/sprint'
 const FILE_URL = process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_API_PATH + '/file'
 export default {
   data() {
@@ -47,6 +49,29 @@ export default {
     };
   },
   methods: {
+    loadAllEpics() {
+      epicAPI.getAll().then(({ data }) => {
+        if (data.success) {
+          this.$store.dispatch('setData', {
+            key: 'allEpics',
+            data: data.docs
+          })
+        }
+      })
+    },
+    loadAllSprints() {
+      sprintAPI.getAll().then(({ data }) => {
+        if (data.success) {
+          this.$store.dispatch('setData', {
+            key: 'allSprints',
+            data: data.docs
+          })
+        }
+      })
+    },
+    setData(payload) {
+      this.$store.dispatch('setData', payload)
+    },
     getSlug(text) {
       text = text.toLowerCase();
       text = text.replace(/đ/g, 'd')

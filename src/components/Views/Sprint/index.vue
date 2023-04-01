@@ -10,14 +10,13 @@
         </div>
       </div>
       <el-table
-        :data="$store.getters.users"
+        :data="$store.getters.sprints"
         style="width: 100%">
-        <el-table-column prop="fullname" label="Tên"></el-table-column>
-        <el-table-column prop="email" label="Email"></el-table-column>
-        <el-table-column prop="phone" label="SĐT"></el-table-column>
-        <el-table-column prop="role" label="Quyền">
+        <el-table-column prop="name" label="Tên"></el-table-column>
+        <el-table-column prop="estimate_time" label="Số ngày dự kiến"></el-table-column>
+        <el-table-column prop="user" label="Người tạo">
           <template slot-scope="{row}">
-            {{ roleMap[row.role] }}
+            {{ row.user && row.user.fullname }}
           </template>
         </el-table-column>
         <el-table-column :fixed="$isMobile?false:'right'" label="Thao tác" width="150">
@@ -34,7 +33,7 @@
       <div class="mt-2">
         <el-pagination
           background layout="jumper, prev, pager, next, sizes, total" :page-sizes="[25, 50, 100]" :pager-count="5"
-          :page-size.sync="pagination.page_size" :total="$store.getters.total_user" :current-page.sync="pagination.current_page"
+          :page-size.sync="pagination.page_size" :total="$store.getters.total_sprints" :current-page.sync="pagination.current_page"
           @current-change="loadData" @size-change="handlePageSizeChange"
         />
       </div>
@@ -43,20 +42,17 @@
 </template>
 
 <script>
-const ModelCode = 'user';
-import { getCollection, handleDelete } from '@/api/user';
+const ModelCode = 'sprint';
+import { getCollection, handleDelete } from '@/api/sprint';
 export default {
   data() {
     return {
+      tableData: [],
       pagination: {
         current_page: 1,
         page_size: 25
       },
-      roleMap: {
-        admin: 'Quản trị',
-        leader: 'Quản trị nhóm',
-        employee: 'Thành viên',
-      }
+      totalData: 0,
     };
   },
   created () {
@@ -91,7 +87,7 @@ export default {
       getCollection({ pagination: this.pagination }).then(({data}) => {
         if (data.success) {
           this.setData({
-            key: 'users',
+            key: 'sprints',
             data: {
               docs: data.docs,
               total: data.total

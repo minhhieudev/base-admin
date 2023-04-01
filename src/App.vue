@@ -5,7 +5,12 @@
 </template>
 
 <script>
-export default {}
+export default {
+  created() {
+    this.loadAllEpics()
+    this.loadAllSprints()
+  }
+}
 </script>
 
 <style lang="scss">
