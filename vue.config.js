@@ -9,7 +9,7 @@ module.exports = {
   },
   publicPath: './',
   productionSourceMap: false,
-  outputDir: './html',
+  outputDir: '../html',
   devServer: {
     port: 8081
   },
