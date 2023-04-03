@@ -45,11 +45,11 @@
           </el-form>
           <label>Mô tả</label>
           <ckeditor v-model="task.description" :config="ckEditorConfig"></ckeditor>
-          <TaskComment class="mt-3" :task="task"/>
+          <TaskComment v-if="task._id"  class="mt-3" :task="task"/>
         </div>
         <div class="col-md-3 mt-2">
           <div class="text-right">
-            <el-button type="primary" @click="reportDialog = true" plain>Báo cáo</el-button>
+            <el-button v-if="task._id" type="primary" @click="reportDialog = true" plain>Báo cáo</el-button>
             <el-button type="primary" @click="handleCreate">Lưu</el-button>
           </div>
 
