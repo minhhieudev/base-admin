@@ -1,7 +1,7 @@
 <template>
   <header class="navbar app-navbar px-4 bg-white v2-theme">
     <header-left />
-    <Search />
+    <!-- <Search /> -->
     <div class="ml-auto mr-1" v-if="!$isMobile">
       <account-info></account-info>
     </div>

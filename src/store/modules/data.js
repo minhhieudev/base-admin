@@ -20,6 +20,7 @@ export default {
 
     allEpics: [],
     allSprints: [],
+    allUsers: [],
   },
   mutations: {
     SET_DATA: function(state, payload) {

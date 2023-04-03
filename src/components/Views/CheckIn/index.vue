@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <el-card>
-      <CheckIn/>
+      <CheckIn @change="loadData"/>
       <el-table
         :data="tableData"
         style="width: 100%">
@@ -75,7 +75,7 @@ export default {
     loadData() {
       getCollection({ pagination: this.pagination }).then(({data}) => {
         if (data.success) {
-          this.tableData = data.data
+          this.tableData = data.docs
 
           if (data.total) {
             this.totalData = data.total

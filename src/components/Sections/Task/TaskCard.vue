@@ -10,7 +10,7 @@
 
         </div>
         <div class="d-flex">
-          <div class="edit-btn" @click="$emit('remove', task)">
+          <div class="edit-btn" @click="$emit('remove', task)" v-if="isAdminRole">
             <i class="el-icon-delete text-danger"></i>
           </div>
           <div class="edit-btn ml-2" @click="$emit('viewDetail', task)">

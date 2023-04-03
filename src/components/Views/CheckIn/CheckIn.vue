@@ -14,10 +14,24 @@ import { checkIn, checkOut } from '@/api/user_report';
 export default {
   methods: {
     checkIn() {
-      checkIn()
+      this.$confirm(`Check In`, 'Xác nhận', {
+        confirmButtonText: 'OK',
+        type: 'warning'
+      }).then(() => {
+        checkIn().then(() => {
+          this.$emit('change')
+        })
+      }).catch()
     },
     checkOut() {
-      checkOut()
+      this.$confirm(`Check Out`, 'Xác nhận', {
+        confirmButtonText: 'OK',
+        type: 'warning'
+      }).then(() => {
+        checkOut().then(() => {
+          this.$emit('change')
+        })
+      }).catch()
     }
   }
 }

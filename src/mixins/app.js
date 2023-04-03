@@ -3,6 +3,7 @@ import slugify from 'slugify'
 import { uploadImage } from '@/api/media'
 import * as epicAPI from '@/api/epic'
 import * as sprintAPI from '@/api/sprint'
+import * as userAPI from '@/api/user'
 const FILE_URL = process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_API_PATH + '/file'
 export default {
   data() {
@@ -49,6 +50,16 @@ export default {
     };
   },
   methods: {
+    loadAllUsers() {
+      userAPI.getAll().then(({ data }) => {
+        if (data.success) {
+          this.$store.dispatch('setData', {
+            key: 'allUsers',
+            data: data.docs
+          })
+        }
+      })
+    },
     loadAllEpics() {
       epicAPI.getAll().then(({ data }) => {
         if (data.success) {
@@ -162,6 +173,9 @@ export default {
     },
   },
   computed: {
+    isAdminRole() {
+      return this.$store.getters.user.role == 'admin'
+    },
     taskStatusMap () {
       return this.$store.getters.taskStatusMap
     },

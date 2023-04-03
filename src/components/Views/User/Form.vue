@@ -136,6 +136,7 @@ export default {
           let currentId
           await saveData(this.form).then(({data}) => {
             if (data.success == true) {
+              this.loadAllUsers()
               if (isContinue === false) {
                 this.$router.push({ name: `${ModelCode}_main` });
               } else {

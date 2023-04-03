@@ -91,6 +91,9 @@ export default {
     },
     handleSave: function (isContinue = false) {
       this.$refs.form_data.validate(async (valid) => {
+        if (!this.form.name) {
+          return false
+        }
         if (valid == false) {
           return false
         } else {
@@ -98,6 +101,7 @@ export default {
           let currentId
           await saveData(this.form).then(({data}) => {
             if (data.success == true) {
+              this.loadAllEpics()
               if (isContinue === false) {
                 this.$router.push({ name: `${ModelCode}_main` });
               } else {

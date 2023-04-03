@@ -43,11 +43,26 @@ export default {
       url: '/checkin',
       icon: 'layers',
     },
+    {
+      name: 'Công việc',
+      url: '/task-status',
+      icon: 'layers',
+    },
   ],
   leader: [
     {
       name: 'Check In',
       url: '/checkin',
+      icon: 'layers',
+    },
+    {
+      name: 'Công việc',
+      url: '/task-status',
+      icon: 'layers',
+    },
+    {
+      name: 'Gói việc',
+      url: '/sprint',
       icon: 'layers',
     },
   ]

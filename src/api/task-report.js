@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-const modelCode = 'report-task'
+const modelCode = 'task-report'
 
 export function getCollection (data) {
   return request({
@@ -9,9 +9,9 @@ export function getCollection (data) {
   })
 }
 
-export function getAll () {
+export function getAll (taskID) {
   return request({
-    url: `/${modelCode}`,
+    url: `/${modelCode}?task=${taskID}`,
     method: 'get'
   })
 }

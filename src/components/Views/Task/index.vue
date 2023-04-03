@@ -4,21 +4,25 @@
       <div class="">
         <el-select class="ml-2" v-model="currentSprint._id">
           <el-option value="all" label="Tất cả chiến dịch"></el-option>
+          <el-option
+            v-for="(sprint, index) in $store.getters.allSprints"
+            :key="index"
+            :value="sprint._id" :label="sprint.name"></el-option>
         </el-select>
         <el-button v-if="currentSprint._id != 'all'" class="ml-2" type="primary" plain>Xem chi tiết</el-button>
       </div>
-      <div class="">
+      <div class="" v-if="isAdminRole">
         <el-button type="primary" @click="createNewTask">Tạo mới</el-button>
       </div>
     </div>
-    <div class="d-flex">
-      <div class="ml-2" style="width: 300px;" v-for="(status, index) in statusList" :key="index">
+    <div class="d-flex list-task" :class="{ 'mobile': $isMobile }">
+      <div class="ml-2"  v-for="(status, index) in statusList" :key="index">
         <el-card>
           <div class="status-label" :style="`background-color: ${taskStatusMap[status].color};`">
             {{ taskStatusMap[status].label }}
           </div>
           <draggable @change="changeStatusTask($event, status)" v-model="taskMap[status]" :animation="250" group="preset-attributes">
-            <transition-group style="min-height: calc(100vh - 200px);" :name="status" class="list-group" tag="ul">
+            <transition-group style="min-height: calc(100vh - 200px);" :name="status" class="list-group" tag="ul" :key="2">
               <div v-for="(task, indexItem) in taskMap[status]" :key="indexItem">
                 <TaskCard :task="task"  class="mt-2" @viewDetail="handleViewDetail" @remove="handleRemoveTask"/>
               </div>
@@ -28,8 +32,8 @@
       </div>
     </div>
 
-    <el-dialog :visible.sync="dialogDetail" title="Chi tiết công việc" width="75%">
-      <TaskDetail :task="currentTask"/>
+    <el-dialog :visible.sync="dialogDetail" title="Chi tiết công việc" :width="$isMobile ?'100%':'75%'">
+      <TaskDetail @saved="loadTasks" :task="currentTask"/>
     </el-dialog>
   </div>
 </template>
@@ -38,7 +42,7 @@
 import TaskDetail from '../../Sections/Task/TaskForm.vue'
 import TaskCard from '../../Sections/Task/TaskCard.vue'
 import draggable from 'vuedraggable'
-import { saveData, getCollection, handleDelete } from '@/api/task'
+import { saveData, getCollection, handleDelete, getAll } from '@/api/task'
 
 export default {
   components: { draggable, TaskCard, TaskDetail },
@@ -49,11 +53,20 @@ export default {
       currentTask: {},
       currentSprint: {
         _id: 'all'
-      }
+      },
+      taskMap: {}
     }
   },
   computed: {
-    taskMap() {
+    tasks() {
+      return this.$store.getters.tasks
+    }
+  },
+  watch: {
+    'currentSprint._id': function () {
+      this.loadTasks()
+    },
+    tasks() {
       let map = {}
       this.$store.getters.tasks.forEach(task => {
         if (!map[task.status]) {
@@ -61,10 +74,11 @@ export default {
         }
         map[task.status].push(task)
       })
-      return map
+      this.taskMap = map
     }
   },
   created() {
+    this.loadAllSprints()
     this.loadTasks()
     this.statusList = Object.keys(this.taskStatusMap)
     this.statusList.forEach(status => {
@@ -73,19 +87,36 @@ export default {
   },
   methods: {
     loadTasks() {
-      let filter = {}
-      const populate = { path: 'epic', select: 'name' }
-      getCollection({ filter, populate }).then(({data}) => {
-        if (data.success) {
-          this.setData({
-            key: 'tasks',
-            data: {
-              docs: data.docs,
-              total: data.total
+      if (this.currentSprint._id) {
+        if (this.currentSprint._id != 'all') {
+          let filter = {}
+          filter.sprint = this.currentSprint._id
+          const populate = { path: 'epic', select: 'name' }
+          getCollection({ filter, populate }).then(({data}) => {
+            if (data.success) {
+              this.setData({
+                key: 'tasks',
+                data: {
+                  docs: data.docs,
+                  total: data.total
+                }
+              })
+            }
+          })
+        } else {
+          getAll().then(({data}) => {
+            if (data.success) {
+              this.setData({
+                key: 'tasks',
+                data: {
+                  docs: data.docs,
+                  total: data.total
+                }
+              })
             }
           })
         }
-      })
+      }
     },
     createNewTask () {
       this.dialogDetail = true
@@ -118,7 +149,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.list-task{
+  //width: 400px;
+  >div{
+    width: 400px;
+  }
+  &.mobile{
+    width: 100vw;
+    overflow: scroll;
+    >div{
+      min-width: 90vw ;
+    }
+  }
+}
 .status-label{
   color: white;
   padding: 2px;

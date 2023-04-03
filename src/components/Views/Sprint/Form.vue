@@ -9,8 +9,21 @@
           label-position="left"
           :model="form"
         >
-          <el-form-item label="Tên" required>
+          <el-form-item label="Tên" required prop="name">
             <el-input v-model="form.name" autofocus />
+          </el-form-item>
+          <el-form-item label="Người thực hiện">
+            <el-select v-model="form.users" multiple placeholder="Select">
+              <el-option
+                v-for="(user, index) in $store.getters.allUsers"
+                :key="index"
+                :label="user.fullname"
+                :value="user._id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Bắt đầu chạy">
+            <el-switch v-model="form.is_enabled" />
           </el-form-item>
           <el-form-item label="Số ngày dự kiến">
             <el-input-number v-model="form.estimate_time" />
@@ -19,7 +32,7 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <el-card>
+          <el-card style="min-height: 250px;">
             <b>Danh Sách Công Việc</b>
             <div class="d-flex mt-2" v-for="(task, index) in form.tasks" :key="index">
               <el-button @click="removeTask(task)" type="danger" icon="el-icon-remove-outline" size="mini" circle plain></el-button>
@@ -28,7 +41,7 @@
           </el-card>
         </div>
         <div class="col-md-6">
-          <el-card>
+          <el-card style="min-height: 250px;">
             <b>Công Việc Đang Chờ</b>
             <div class="d-flex mt-2" v-for="(task, index) in readyTasks" :key="index">
               <el-button @click="addTask(task)" type="primary" icon="el-icon-circle-plus-outline" size="mini" circle plain></el-button>
@@ -103,7 +116,8 @@ export default {
     },
     loadReadyTask() {
       let filter = {
-        status: 'READY_FOR_WORK'
+        status: 'READY_FOR_WORK',
+        sprint: null
       }
       getCollection({filter}).then(({data}) => {
         if (data.success) {
@@ -135,6 +149,9 @@ export default {
     },
     handleSave: function (isContinue = false) {
       this.$refs.form_data.validate(async (valid) => {
+        if (!this.form.name) {
+          return false
+        }
         if (valid == false) {
           return false
         } else {
@@ -142,6 +159,7 @@ export default {
           let currentId
           await saveData(this.form).then(({data}) => {
             if (data.success == true) {
+              this.loadAllSprints()
               if (isContinue === false) {
                 this.$router.push({ name: `${ModelCode}_main` });
               } else {

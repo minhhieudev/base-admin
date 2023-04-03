@@ -99,13 +99,13 @@ export default {
   height: 100%;
   min-height: 100vh;
   max-height: 100vh;
-  background: #252525;
+  background: #f3feff;
   z-index: 1010;
   &.w-180 {
     width: $sidebar-size-expand;
     /deep/.sidebar-menu-item {
       button {
-        background: #244c33;
+        background: #468a5f;
         color: #fff;
       }
       .active {

@@ -66,4 +66,5 @@ export default {
 
   allEpics: state => state.data.allEpics,
   allSprints: state => state.data.allSprints,
+  allUsers: state => state.data.allUsers,
 }

@@ -13,7 +13,21 @@
         :data="$store.getters.sprints"
         style="width: 100%">
         <el-table-column prop="name" label="Tên"></el-table-column>
-        <el-table-column prop="estimate_time" label="Số ngày dự kiến"></el-table-column>
+        <el-table-column prop="estimate_time" label="Số ngày dự kiến">
+          <template slot-scope="{row}">
+            {{ row.estimate_time }} ngày
+          </template>
+        </el-table-column>
+        <el-table-column prop="user" label="Số việc">
+          <template slot-scope="{row}">
+            {{ row.tasks.length }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="user" label="Số nhân viên">
+          <template slot-scope="{row}">
+            {{ row.users.length }}
+          </template>
+        </el-table-column>
         <el-table-column prop="user" label="Người tạo">
           <template slot-scope="{row}">
             {{ row.user && row.user.fullname }}
