@@ -13,7 +13,7 @@
         <el-table-column prop="status" label="Trạng thái"></el-table-column>
         <el-table-column prop="fullname" label="Nhân viên">
           <template slot-scope="{row}">
-            {{ row.user.fullname }}
+            {{ row.user ? row.user.fullname:'Không tồn tại' }}
           </template>
         </el-table-column>
         <el-table-column prop="type" label="Loại">

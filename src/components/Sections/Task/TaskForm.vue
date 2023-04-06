@@ -9,7 +9,7 @@
             label-position="left"
             :model="task"
           >
-            <el-form-item label="Tên" required>
+            <el-form-item label="Tên công việc (mô tả ngắn)" required>
               <el-input v-model="task.name" autofocus />
             </el-form-item>
             <el-form-item label="Trạng thái">
