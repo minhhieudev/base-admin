@@ -44,7 +44,9 @@ export default {
     userLabels() {
       let labels = []
       this.task.assigned_users.forEach(user => {
-
+        if (typeof user == 'string') {
+          user = this.$store.getters.allUsers.find(_u => _u._id == user)
+        }
         let names = user.fullname.split(' ')
         let label = ''
         if (names.length > 1) {

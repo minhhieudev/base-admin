@@ -43,7 +43,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="Người thực hiện">
-              <el-select v-model="task.assigned_users" multiple placeholder="Select">
+              <el-select @change="selectUser" :value="usersSelected" multiple placeholder="Select">
                 <el-option
                   v-for="(user, index) in $store.getters.allUsers"
                   :key="index"
@@ -139,6 +139,18 @@ export default {
       reports: [],
     }
   },
+  computed: {
+    usersSelected() {
+      let users = this.task.assigned_users.map(u => {
+        if (typeof u == 'string') {
+          return u
+        } else {
+          return u._id
+        }
+      })
+      return users
+    }
+  },
   created() {
     //console.log(this.taskStatusMap, 'taskStatus');
     // getDetail(this.task._id).then(({data}) => {
@@ -147,6 +159,9 @@ export default {
     this.loadReports()
   },
   methods: {
+    selectUser(e) {
+      this.task.assigned_users = e
+    },
     loadReports() {
       taskReportAPI.getAll(this.task._id).then(({data}) => {
         if (data.success) {
