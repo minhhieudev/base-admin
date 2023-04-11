@@ -92,24 +92,27 @@ export default {
  // background: $wr-sidebar-bg;
 }
 .sidebar {
-  width: $sidebar-size;
+  margin: 20px;
+  border-radius: 20px;
+
+  width: 170px !important;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  min-height: 100vh;
-  max-height: 100vh;
-  background: #f3feff;
+  height: calc(100% - 40px);
+  background: #fff;
   z-index: 1010;
   &.w-180 {
     width: $sidebar-size-expand;
     /deep/.sidebar-menu-item {
       button {
-        background: #468a5f;
-        color: #fff;
+        //background: #468a5f;
+        color: #333;
+        padding-top: 5px;
+        padding-bottom: 5px;
       }
       .active {
-        background: #1cb955;
+        background: #d8ede9;
       }
       .sidebar-item {
         flex-direction: row !important;

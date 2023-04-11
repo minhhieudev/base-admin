@@ -25,6 +25,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-navbar{
+  height: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 0px;
+  border-radius: 500px;
+}
 
 .title {
   margin-top: -5px;

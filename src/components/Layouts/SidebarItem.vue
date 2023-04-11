@@ -4,9 +4,9 @@
       <el-button plain :type="(getSidebarActive || getRouteActive) ? 'primary' : ''" class="px-2 w-100" :class="{'border-0': !getSidebarActive && !getRouteActive, 'active': (getSidebarActive || getRouteActive)}" @click="showSidebarItem(sidebar, index, hasChildren)">
         <div class="d-flex flex-wrap align-items-center justify-content-center flex-column sidebar-item">
           <div class="icon" v-if="sidebar.icon.includes('el-icon') || sidebar.icon.includes('fa fa-')">
-            <i :class="sidebar.icon"></i>
+            <i :style="`color: ${sidebar.color_icon}`" :class="sidebar.icon"></i>
           </div>
-          <feather-icons :icon="sidebar.icon" />
+          <feather-icons :icon="sidebar.icon" :style="`color: ${sidebar.color_icon}`"/>
           <b class="text mt-2">{{ sidebar.name }}</b>
         </div>
       </el-button>

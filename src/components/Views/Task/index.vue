@@ -91,7 +91,7 @@ export default {
         if (this.currentSprint._id != 'all') {
           let filter = {}
           filter.sprint = this.currentSprint._id
-          const populate = { path: 'epic', select: 'name' }
+          const populate = [{ path: 'epic', select: 'name' }, { path: 'sprint', select: 'name' }]
           getCollection({ filter, populate }).then(({data}) => {
             if (data.success) {
               this.setData({

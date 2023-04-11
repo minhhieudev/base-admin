@@ -3,7 +3,7 @@
     <side-bar-component @sidebarExpand="isSidebarExpand = $event" v-if="!$isMobile"/>
     <section class="content minus-180" v-if="isLoaded" v-loading="loadingStatus > 0">
       <header-component/>
-      <root-content :key="client" class="pt-3"/>
+      <root-content :key="client"/>
     </section>
   </div>
 </template>

@@ -9,8 +9,8 @@
             label-position="left"
             :model="task"
           >
-            <el-form-item label="Tên công việc (mô tả ngắn)" required>
-              <el-input v-model="task.name" autofocus />
+            <el-form-item label="Tên công việc" required>
+              <el-input v-model="task.name" autofocus placeholder="Mô tả ngắn về công việc"/>
             </el-form-item>
             <el-form-item label="Trạng thái">
               <el-select v-model="task.status">

@@ -79,9 +79,8 @@ export default {
 }
 .wrapper {
   min-height: calc(100vh - #{$new-header-height});
-  background-color: white;
   @media (min-width: $sm) {
-    background-color: var(--light-gray);
+    //background-color: var(--light-gray);
   }
 }
 .content-header {
