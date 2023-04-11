@@ -182,8 +182,8 @@ export default {
               });
             }
 
-            this.$store.dispatch("reRender")
             this.loadData(currentId)
+            this.$store.dispatch("reRender")
           }
         }
       })

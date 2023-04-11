@@ -6,8 +6,10 @@
       </div>
       <h5 @click="$emit('viewDetail', task)">{{ task.name }}</h5>
       <div class="d-flex justify-content-between">
-        <div class="">
-
+        <div class="d-flex">
+          <div class="user-circle ml-1" v-for="(label, index) in userLabels" :key="index">
+            {{ label }}
+          </div>
         </div>
         <div class="d-flex">
           <div class="edit-btn" @click="$emit('remove', task)" v-if="isAdminRole">
@@ -37,11 +39,41 @@ export default {
       // },
       detailDialog: false
     }
+  },
+  computed: {
+    userLabels() {
+      let labels = []
+      this.task.assigned_users.forEach(user => {
+
+        let names = user.fullname.split(' ')
+        let label = ''
+        if (names.length > 1) {
+          label = names[0][0] + names[1][0]
+        } else {
+          label = names[0].slice(0, 2)
+        }
+        labels.push(label.toUpperCase())
+      });
+      return labels
+    }
   }
 }
 </script>
 
 <style>
+  .user-circle{
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    width: 27px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    line-height: 25px;
+    font-weight: 800;
+  }
   .epic-tag {
     border-left: #dfdfdf 5px solid;
     padding-left: 5px;

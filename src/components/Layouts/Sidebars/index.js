@@ -3,7 +3,7 @@ export default {
     {
       name: 'Thống kê',
       url: '/dashboard',
-      icon: 'layers',
+      icon: 'el-icon-platform-eleme',
       color_icon: '#f9b651',
     },
     {

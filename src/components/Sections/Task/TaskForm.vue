@@ -42,6 +42,16 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="Người thực hiện">
+              <el-select v-model="task.assigned_users" multiple placeholder="Select">
+                <el-option
+                  v-for="(user, index) in $store.getters.allUsers"
+                  :key="index"
+                  :label="user.fullname"
+                  :value="user._id">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-form>
           <label>Mô tả</label>
           <ckeditor v-model="task.description" :config="ckEditorConfig"></ckeditor>

@@ -6,7 +6,7 @@
           <div class="icon" v-if="sidebar.icon.includes('el-icon') || sidebar.icon.includes('fa fa-')">
             <i :style="`color: ${sidebar.color_icon}`" :class="sidebar.icon"></i>
           </div>
-          <feather-icons :icon="sidebar.icon" :style="`color: ${sidebar.color_icon}`"/>
+          <!-- <feather-icons :icon="sidebar.icon" :style="`color: ${sidebar.color_icon}`"/> -->
           <b class="text mt-2">{{ sidebar.name }}</b>
         </div>
       </el-button>

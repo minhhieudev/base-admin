@@ -33,7 +33,7 @@
     </div>
 
     <el-dialog :visible.sync="dialogDetail" title="Chi tiết công việc" :width="$isMobile ?'100%':'75%'">
-      <TaskDetail @saved="loadTasks" :task="currentTask"/>
+      <TaskDetail @saved="afterSavedTask" :task="currentTask"/>
     </el-dialog>
   </div>
 </template>
@@ -86,12 +86,16 @@ export default {
     })
   },
   methods: {
+    afterSavedTask() {
+      this.dialogDetail = false
+      this.loadTasks()
+    },
     loadTasks() {
       if (this.currentSprint._id) {
         if (this.currentSprint._id != 'all') {
           let filter = {}
           filter.sprint = this.currentSprint._id
-          const populate = [{ path: 'epic', select: 'name' }, { path: 'sprint', select: 'name' }]
+          const populate = [{ path: 'epic', select: 'name' }, { path: 'sprint', select: 'name' }, { path: 'assigned_users', select: 'fullname' }]
           getCollection({ filter, populate }).then(({data}) => {
             if (data.success) {
               this.setData({
