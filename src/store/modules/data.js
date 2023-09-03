@@ -17,6 +17,14 @@ export default {
       docs: [],
       total: 0
     },
+    answers: {
+      docs: [],
+      total: 0
+    },
+    questions: {
+      docs: [],
+      total: 0
+    },
 
     allEpics: [],
     allSprints: [],

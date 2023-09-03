@@ -60,8 +60,10 @@
 </template>
 
 <script>
-import Question from '../Epic/Question.vue';
+import Question from './Question.vue';
 import ColorPicker from '../ChatRoom/ColorPicker.vue';
+import { saveData} from '@/api/question'
+
 
 export default {
   data() {
@@ -116,34 +118,50 @@ export default {
       // Hiển thị popup nhập nội dung câu hỏi khi click vào
       this.isQuestionPopupVisible = true;
     },
-    handleOnSubmit() {
-      // Xử lý khi người dùng gửi tin nhắn
-      // Tương tự như trong React ChatWindow
-    },
     submitQuestion() {
-      // Xử lý khi người dùng đăng câu hỏi
-      if (this.questionText.trim() === "") {
-        // Kiểm tra xem nội dung câu hỏi có trống không
-        // Hiển thị thông báo lỗi hoặc thực hiện xử lý gửi câu hỏi
-        // Tùy theo logic của bạn
-        return;
-      }
+  if (this.questionText.trim() !== "") {
+    // Tạo một đối tượng câu hỏi từ dữ liệu được nhập vào
+    const newQuestion = {
+      content: this.questionText,
+      // Các trường thông tin khác của câu hỏi nếu cần
+    };
+    console.log(this.questionText);
+    // Lưu câu hỏi vào cơ sở dữ liệu bằng cách gọi API
+    saveData(newQuestion)
+      .then((response) => {
+        if (response && response.status === 200) {
+          // Kiểm tra xem phản hồi có trạng thái 200 OK không
+          const responseData = response.data;
 
-      // Tạo một đối tượng câu hỏi mới và thêm vào danh sách câu hỏi
-      const newQuestion = {
-        id: this.questions.length + 1,
-        text: this.questionText,
-        photoURL: "", // Cập nhật ảnh đại diện nếu cần
-        displayName: "Người gửi", // Cập nhật tên người gửi
-        createdAt: Date.now(),
-      };
+          if (responseData && responseData.success) {
+            // Nếu lưu thành công, thêm câu hỏi mới vào danh sách câu hỏi
+            this.questions.unshift(responseData.question);
 
-      this.questions.push(newQuestion);
+            // Xóa nội dung câu hỏi sau khi đã tạo thành công
+            this.questionText = "";
 
-      // Đóng popup và xóa nội dung câu hỏi
-      this.isQuestionPopupVisible = false;
-      this.questionText = "";
-    },
+            // Đóng popup sau khi tạo câu hỏi
+            this.isQuestionPopupVisible = false;
+          } else {
+            // Xử lý trường hợp lỗi khi lưu câu hỏi (API trả về success: false)
+            console.error("Lỗi khi lưu câu hỏi: ", responseData);
+          }
+        } else {
+          // Xử lý trường hợp lỗi khi gọi API (status code khác 200)
+          console.error("Lỗi khi gửi câu hỏi, phản hồi không hợp lệ: ", response);
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gửi câu hỏi: ", error);
+        // Xử lý lỗi nếu có
+      });
+  } else {
+    // Xử lý trường hợp không có nội dung câu hỏi
+    // Hiển thị thông báo hoặc xử lý khác tùy ý
+  }
+},
+
+    
     showTimestampPicker() {
       console.log('123');
     },
