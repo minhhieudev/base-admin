@@ -65,7 +65,8 @@ export default {
 
 <style lang="scss" scoped>
   .content {
-    width: 100%;
+    margin-left: 80px;
+    width: 96%;
     @media (min-width: $md) {
       padding-left: $sidebar-size + 1;
       &.minus-180 {

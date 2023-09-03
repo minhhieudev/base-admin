@@ -20,10 +20,10 @@ import 'tinymce/plugins/link/plugin'
 import './tinymce-plugins/image'
 import 'tinymce/icons/default'
 import './utils/vee-validate'
-
+import VueQuillEditor from "vue-quill-editor";
 import CKEditor from 'ckeditor4-vue';
 Vue.use( CKEditor );
-
+Vue.use(VueQuillEditor /* { default global options } */);
 Vue.use(ElementUI, { locale })
 Vue.use(globalDirectives)
 Vue.config.productionTip = false

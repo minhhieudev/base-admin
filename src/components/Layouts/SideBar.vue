@@ -3,10 +3,23 @@
     <div v-if="!isHeader" class="p-3 d-flex flex-wrap" :class="isSidebarExpand ? 'align-items-center justify-content-between' : 'justify-content-center'">
       <div class="text-center">
       </div>
-      <div class="text-center" :class="isSidebarExpand ? 'ml-2' : 'mt-2'">
+      <div class="flex" :class="isSidebarExpand ? 'ml-2' : 'mt-2'">
         <img v-if="!$isMobile" src="@/assets/logo.png" alt="logo" height="60" />
+        <p style="color: aqua;">PHẦN MỀM CỐ VẤN HỌC TẬP</p>
         <!-- <el-button circle plain type="primary" :icon="isSidebarExpand ? 'el-icon-arrow-left' : 'el-icon-arrow-right'" @click="handleSidebarExpand" /> -->
       </div>
+    </div>
+    <div style="background-color: antiquewhite; border-radius: 15px;">
+      CỐ VẤN HỌC TẬP
+    </div>
+    <div class="wrapper-sidebar-menu">
+      <ul class="sidebar-menu">
+       <li>IE_Võ Minh Hiếu</li>
+       <li>IE_Cố vấn học tập</li>
+      </ul>
+    </div>
+    <div style="background-color: rgb(156, 230, 243); border-radius: 15px;">
+      QUẢN TRỊ CHUNG
     </div>
     <div class="wrapper-sidebar-menu">
       <ul class="sidebar-menu">
@@ -95,7 +108,7 @@ export default {
   margin: 20px;
   border-radius: 20px;
 
-  width: 170px !important;
+  width: 250px !important;
   position: fixed;
   top: 0;
   left: 0;
