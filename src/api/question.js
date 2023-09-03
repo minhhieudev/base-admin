@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-const modelCode = "question";
+const modelCode = "epic";
 
 export function getCollection(data) {
   return request({
