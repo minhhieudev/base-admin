@@ -31,6 +31,12 @@ export default {
       color_icon: "#ff4d4d",
     },
     {
+      name: "Câu hỏi",
+      url: "/question",
+      icon: "el-icon-s-order",
+      color_icon: "#ff4d4d",
+    },
+    {
       name: "Quản trị không gian CVHT",
       url: "/sprint",
       icon: "el-icon-menu",

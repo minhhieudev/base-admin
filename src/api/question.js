@@ -1,5 +1,5 @@
 import request from "@/utils/request";
-const modelCode = "epic";
+const modelCode = "question";
 
 export function getCollection(data) {
   return request({
@@ -31,7 +31,6 @@ export function getDetail(id) {
 }
 
 export function saveData(data) {
-  console.log('lưu đây');
   return request({
     url: `/${modelCode}`,
     method: "post",

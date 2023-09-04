@@ -29,6 +29,7 @@ export default {
     allEpics: [],
     allSprints: [],
     allUsers: [],
+    allQuestion:[],
   },
   mutations: {
     SET_DATA: function(state, payload) {
