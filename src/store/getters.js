@@ -4,6 +4,7 @@ export default {
   sidebarHeight: (state) => state.app.sidebarHeight,
   token: (state) => state.user.token,
   user: (state) => state.user.user,
+  question: (state) => state.question.question,
   alerts: (state) => state.app.alerts,
   loadingStatus: (state) => state.app.loadingStatus,
   reRender: (state) => state.app.reRender,
@@ -72,4 +73,6 @@ export default {
   allEpics: (state) => state.data.allEpics,
   allSprints: (state) => state.data.allSprints,
   allUsers: (state) => state.data.allUsers,
+  allQuestions: (state) => state.data.allUsers,
+  allAnswers: (state) => state.data.allUsers,
 };

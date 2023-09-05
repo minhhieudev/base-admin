@@ -1,10 +1,11 @@
 <template>
   <div class="answer">
     <div class="info">
-      <el-avatar :size="avatarSize" :src="photoURL || '../../../assets/logo.png'">
+      <el-avatar :size="avatarSize" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80">
       </el-avatar>
-      <span class="author">{{ userName }}</span>
-      <span class="date">{{ formattedDate }}</span>
+      <span class="author">{{ user }}</span>
+              <span class="date">{{ createdAt }}</span>
+
     </div>
     <div class="content">{{ content }}</div>
     
@@ -37,8 +38,8 @@ import { formatRelative } from 'date-fns';
 export default {
   props: {
     content: String,
-    userName: String,
-    createdAt: Number,
+    user: String,
+    createdAt: String,
     photoURL: String,
     likes: Number,
   },

@@ -16,6 +16,15 @@ export function getAll() {
   });
 }
 
+
+export function getAnswersByQuestionId(id) {
+  return request({
+    url: `/${modelCode}/${id}`, // Đặt đường dẫn API cho việc lấy câu trả lời của câu hỏi
+    method: "get",
+  });
+}
+
+
 export function handleDelete(id) {
   return request({
     url: `/${modelCode}/${id}`,

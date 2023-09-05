@@ -27,6 +27,7 @@ Vue.use(VueQuillEditor /* { default global options } */);
 Vue.use(ElementUI, { locale })
 Vue.use(globalDirectives)
 Vue.config.productionTip = false
+
 Vue.prototype.$isMobile = isMobile
 new Vue({
   router,

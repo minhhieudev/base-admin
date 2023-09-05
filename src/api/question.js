@@ -9,6 +9,8 @@ export function getCollection(data) {
   });
 }
 
+
+
 export function getAll() {
   return request({
     url: `/${modelCode}`,

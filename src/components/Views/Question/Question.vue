@@ -2,11 +2,12 @@
   <div>
     <div class="question" @click="openDetailQuestion">
       <div class="info">
-        <el-avatar :size="avatarSize" :src="photoURL">
-        </el-avatar>
+        <el-avatar :size="avatarSize" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"></el-avatar>
+        
 
-        <span class="author">{{ userName }}</span>
-        <span class="date">{{ formattedDate }}</span>
+        <span class="author">{{ user }}</span>
+        <span class="date">{{ createdAt }}</span>
+
       </div>
 
       <!-- Hiển thị nội dung câu hỏi -->
@@ -22,7 +23,7 @@
           {{ showFullContent ? 'Thu gọn' : 'xem thêm' }}
         </div>
       </div>
-      
+
       <!-- Hiển thị biểu tượng lượt thích và biểu tượng phản hồi -->
       <div class="actions">
         <div class="like-container">
@@ -38,8 +39,7 @@
       <!-- Ô nhập phản hồi -->
       <div class="reply-container">
         <div class="avatar">
-          <el-avatar :size="avatarSize" :src="photoURL">
-          </el-avatar>
+          <el-avatar :size="avatarSize" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"></el-avatar>
         </div>
         <div class="input-box">
           <input
@@ -54,27 +54,35 @@
         </div>
       </div>
     </div>
-    <detailQuestionVue  :isInviteMemberVisible="isInviteMemberVisible"
-      :content="content"
-      :photoURL="photoURL"
-      :userName="userName"
-      :createdAt="createdAt"
-      :likes="likes"
-      :comments="comments"
-    />
+     <detailQuestionVue
+  :isInviteMemberVisible="isInviteMemberVisible"
+  :id="id"
+
+  :content="content"
+  :photoURL="typeof photoURL === 'string' ? photoURL : ''" 
+  :user="user"
+  :createdAt="createdAt"
+  :likes="likes"
+  :comments="comments"
+/>
+
   </div>
-  
 </template>
 
+
 <script>
-import { formatRelative } from 'date-fns';
 import detailQuestionVue from './detailQuestion.vue'; 
+import { formatRelative, parseISO } from 'date-fns';
+import { format } from 'date-fns';
+
+
 
 export default {
   props: {
     content: String,
-    userName: String,
-    createdAt: Number,
+    id:String,
+    user: String,
+    createdAt: String,
     photoURL: String,
     likes: Number,
     comments: Number,
@@ -82,7 +90,7 @@ export default {
   data() {
     return {
       showFullContent: false,
-      maxContentLength: 200, // Thay đổi giá trị maxContentLength nếu cần
+      maxContentLength: 200,
       showPopup: false,
       replyText: "",
       isInviteMemberVisible: false, 
@@ -92,9 +100,14 @@ export default {
     avatarSize() {
       return 'small';
     },
-    formattedDate() {
-      return this.createdAt ? this.formatDate(this.createdAt) : '';
-    },
+    formattedCreatedAt() {
+  if (this.createdAt) {
+    return this.formatDate(new Date(this.createdAt));
+  } else {
+    return '';
+  }
+},
+
     truncatedContent() {
       if (this.content.length > this.maxContentLength) {
         return this.content.slice(0, this.maxContentLength) + '...';
@@ -107,43 +120,34 @@ export default {
     detailQuestionVue,
   },
   methods: {
-    formatDate(seconds) {
-      let formattedDate = '';
-      if (seconds) {
-        formattedDate = formatRelative(
-          new Date(seconds * 1000),
-          new Date()
-        );
-        formattedDate =
-          formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-      }
-      return formattedDate;
-    },
+    formatDate(date) {
+    if (date) {
+      return format(date, 'dd/MM/yyyy HH:mm'); // Thay đổi định dạng tùy ý ở đây
+    } else {
+      return '';
+    }
+  },
     toggleContent() {
       this.showFullContent = !this.showFullContent;
     },
     openDetailQuestion() {
       this.isInviteMemberVisible = !this.isInviteMemberVisible;
-    },
+},
+
+
     onReplyInputChange() {
-      // Xử lý khi người dùng nhập vào ô phản hồi
-      // Ví dụ: có thể kiểm tra độ dài hoặc thực hiện xử lý khác theo nhu cầu
+      console.log('123');
     },
-    
     sendReply() {
-      // Xử lý khi người dùng gửi phản hồi
-      // Ví dụ: có thể gửi dữ liệu phản hồi đến máy chủ hoặc thực hiện xử lý khác theo nhu cầu
       if (this.replyText.trim() !== '') {
-        // Gửi phản hồi đi và cập nhật giao diện nếu cần
-        // Ví dụ: this.replyText chứa nội dung phản hồi từ người dùng
-        // Đảm bảo cập nhật danh sách phản hồi hoặc hiển thị phản hồi mới
-        // và sau đó đặt lại this.replyText để xóa ô nhập phản hồi
         this.replyText = '';
       }
     },
   },
 };
 </script>
+
+
 
 <style scoped>
 
@@ -263,3 +267,4 @@ export default {
   display: inline; /* Hiển thị nút "Xem thêm" cùng hàng với nội dung */
 }
 </style>
+ 

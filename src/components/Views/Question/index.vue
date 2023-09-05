@@ -10,12 +10,13 @@
       <el-main style="height: calc(100% - 56px); padding: 11px;">
         <div class="question-button-container">
           <div class="avatar">
-            <el-avatar :size="avatarSize" :src="photoURL"></el-avatar>
+                    <el-avatar :size="avatarSize" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"></el-avatar>
+
           </div>
           <div class="input-box">
             <input
               v-model="replyText"
-              @input="onReplyInputChange"
+               @input="onReplyInputChange"
               placeholder="Nhập nội dung câu hỏi mà bạn muốn hỏi Cố vấn học tập..."
               class="reply-input" 
               @click="showQuestionPopup"
@@ -23,17 +24,18 @@
           </div>
         </div>
         <el-scrollbar wrap-class="question-list">
-          <question
+      <question
             v-for="mes in questions"
             :key="mes.id"
             :content="mes.content"
-            :photoURL="mes.photoURL"
-            :userName="mes.userName"
-            :createdAt="mes.createdAt"
+            :photoURL="typeof mes.photoURL === 'string' ? mes.photoURL : ''"
+            :user="mes.user.fullname"
+            :createdAt="formatDate(mes.createdAt)"
             :likes="mes.likes"
             :comments="mes.comments"
+            :id="mes._id"
           />
-        </el-scrollbar>
+    </el-scrollbar>
       </el-main>
     </el-container>
 
@@ -46,7 +48,9 @@
           class="question-textarea"
           placeholder="Nhập nội dung câu hỏi..."
         ></textarea>
-        <ckeditor  :config="ckEditorConfig"></ckeditor>
+
+        <!-- <ckeditor  :config="ckEditorConfig" v-model="questionText" 
+          placeholder="Nhập nội dung câu hỏi..."></ckeditor> -->
         <div class="button-container-tall">
           <!-- Thêm icon cho các button bằng cách sử dụng thuộc tính icon của el-button -->
           <el-button @click="isQuestionPopupVisible = false" class="close-button" icon="el-icon-close">Đóng</el-button>
@@ -61,7 +65,10 @@
 
 <script>
 import Question from './Question.vue';
-import { saveData} from '@/api/question'
+import { saveData, getCollection } from '@/api/question'
+import { getAll } from '@/api/question'; // Import các phương thức từ tệp api/question.js
+import { format } from 'date-fns'; 
+const ModelCode = 'question';
 
 
 export default {
@@ -70,29 +77,11 @@ export default {
       selectedRoom: {
         name: "Phòng chat mẫu",
         description: "Mô tả phòng chat mẫu",
-        replyText: ""
       },
+        replyText: "",
+
       inputValue: "",
-      questions: [
-        {
-          id: 1,
-          content: "Hôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay ìHôm nay làm gìHôm nay  làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gìHôm nay làm gì?",
-          photoURL: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-          userName: "Người gửi",
-          createdAt: 1630051200,
-          likes: 2,
-          comments:5,
-        },
-        {
-          id: 2,
-          content: "Tro chúng tôi đãày, chúng ên sốthị, nó sẽ hiển thị toàn bộ nội dung. Nếu không, nó sẽ hiển thị số dòng cần thiết và thêm ",
-          photoURL: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-          userName: "Tulen",
-          createdAt: 1630051500,
-          likes: 2,
-          comments:5,
-        }
-      ],
+      questions: [], // Mảng câu hỏi
       color: "white",
       isInviteMemberVisible: false,
       isQuestionPopupVisible: false, // Biến để kiểm soát việc hiển thị popup
@@ -102,6 +91,10 @@ export default {
   components: {
     Question,
   },
+  created() {
+  console.log("Component created");
+  this.loadQuestions();
+},
   computed: {
     avatarSize() {
       return 'small';
@@ -116,12 +109,24 @@ export default {
       // Hiển thị popup nhập nội dung câu hỏi khi click vào
       this.isQuestionPopupVisible = true;
     },
+    formatDate(date) {
+      // Sử dụng hàm format từ date-fns để định dạng lại ngày tháng
+      return String(format(new Date(date), 'dd/MM/yyyy HH:mm')); // Thay đổi định dạng tùy ý
+    },
+    onReplyInputChange() {
+    // Xử lý khi người dùng nhập vào ô phản hồi
+    // Ví dụ: có thể kiểm tra độ dài hoặc thực hiện xử lý khác theo nhu cầu
+    console.log('123');
+  },
     submitQuestion() {
   if (this.questionText.trim() !== "") {
     // Tạo một đối tượng câu hỏi từ dữ liệu được nhập vào
+    // Trong actions hoặc component khác
+
     const newQuestion = {
       content: this.questionText,
-      // Các trường thông tin khác của câu hỏi nếu cần
+      user: this.$store.getters.user._id
+      
     };
     console.log(this.questionText);
     // Lưu câu hỏi vào cơ sở dữ liệu bằng cách gọi API
@@ -157,6 +162,21 @@ export default {
     // Xử lý trường hợp không có nội dung câu hỏi
     // Hiển thị thông báo hoặc xử lý khác tùy ý
   }
+    },
+loadQuestions() {
+  getAll()
+    .then((response) => {
+      console.log('Response from API:', response); // In ra response
+      if (response && response.data && response.data.success) {
+        this.questions = response.data.questions;
+        console.log("Dữ liệu câu hỏi đã được tải:", this.questions);
+      } else {
+        console.error("Không thành công: ", response.data);
+      }
+    })
+    .catch((error) => {
+      console.error("Lỗi khi tải câu hỏi: ", error);
+    });
 },
 
     

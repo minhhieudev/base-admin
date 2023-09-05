@@ -15,6 +15,7 @@ export default {
         entities_processNumerical: false,
         forcePasteAsPlainText: true,
         filebrowserImageUploadUrl: FILE_URL,
+        
       },
       editorConfig: {
         plugins: 'wordcount code image link',
