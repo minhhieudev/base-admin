@@ -34,10 +34,7 @@
         <div class="col-md-6">
           <el-card style="min-height: 250px;">
             <b>Danh Sách Công Việc</b>
-            <div class="d-flex mt-2" v-for="(task, index) in form.tasks" :key="index">
-              <el-button @click="removeTask(task)" type="danger" icon="el-icon-remove-outline" size="mini" circle plain></el-button>
-              <b class="ml-2">{{ task.name }}</b>
-            </div>
+            
           </el-card>
         </div>
         <div class="col-md-6">
@@ -56,7 +53,6 @@
 
 <script>
 const ModelCode = 'sprint'
-import { getCollection } from "@/api/task";
 import { saveData, getDetail } from "@/api/sprint";
 export default {
   data: function () {

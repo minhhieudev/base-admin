@@ -9,7 +9,6 @@ export default {
   mounted() {
     if (['admin', 'leader'].includes(this.$store.getters.user.role)) {
       this.loadAllUsers()
-      this.loadAllEpics()
       this.loadAllSprints()
     }
   }

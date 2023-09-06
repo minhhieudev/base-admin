@@ -52,14 +52,10 @@ export default {
   taskStatusMap: (state) => state.app.taskStatusMap,
 
   // new data
-  epics: (state) => state.data.epics.docs,
-  total_epics: (state) => state.data.epics.total,
 
   sprints: (state) => state.data.sprints.docs,
   total_sprints: (state) => state.data.sprints.total,
 
-  tasks: (state) => state.data.tasks.docs,
-  total_tasks: (state) => state.data.tasks.total,
 
   users: (state) => state.data.users.docs,
   total_users: (state) => state.data.users.total,
@@ -70,7 +66,6 @@ export default {
   questions: (state) => state.data.questions.docs,
   total_questions: (state) => state.data.questions.total,
 
-  allEpics: (state) => state.data.allEpics,
   allSprints: (state) => state.data.allSprints,
   allUsers: (state) => state.data.allUsers,
   allQuestions: (state) => state.data.allUsers,

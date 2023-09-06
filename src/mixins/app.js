@@ -1,7 +1,6 @@
 import { snakeCase } from 'lodash'
 import slugify from 'slugify'
 import { uploadImage } from '@/api/media'
-import * as epicAPI from '@/api/epic'
 import * as sprintAPI from '@/api/sprint'
 import * as userAPI from '@/api/user'
 const FILE_URL = process.env.VUE_APP_BACKEND_URL + process.env.VUE_APP_API_PATH + '/file'
@@ -61,16 +60,7 @@ export default {
         }
       })
     },
-    loadAllEpics() {
-      epicAPI.getAll().then(({ data }) => {
-        if (data.success) {
-          this.$store.dispatch('setData', {
-            key: 'allEpics',
-            data: data.docs
-          })
-        }
-      })
-    },
+    
     loadAllSprints() {
       sprintAPI.getAll().then(({ data }) => {
         if (data.success) {

@@ -9,11 +9,8 @@ import NotFound from '@/components/GeneralView/NotFoundPage'
 
 // Model routes
 import userRoutes from './children/user'
-import checkInRoute from './children/checkin'
 import settingRoute from './children/setting'
-import taskStatusRoute from './children/task-status'
 import sprintRoute from './children/sprint'
-import epicRoute from './children/epic'
 import questionRoute from './children/question'
 
 Vue.use(Router)
@@ -49,10 +46,7 @@ let adminRoutes = {
       }
     },
     ...sprintRoute,
-    ...epicRoute,
-    ...taskStatusRoute,
     ...settingRoute,
-    ...checkInRoute,
     ...questionRoute,
     ...userRoutes,
   ]

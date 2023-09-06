@@ -5,14 +5,6 @@ export default {
       docs: [],
       total: 0
     },
-    tasks: {
-      docs: [],
-      total: 0
-    },
-    epics: {
-      docs: [],
-      total: 0
-    },
     sprints: {
       docs: [],
       total: 0
@@ -26,10 +18,10 @@ export default {
       total: 0
     },
 
-    allEpics: [],
     allSprints: [],
     allUsers: [],
-    allQuestion:[],
+    allQuestions:[],
+    allAnswers:[],
   },
   mutations: {
     SET_DATA: function(state, payload) {
