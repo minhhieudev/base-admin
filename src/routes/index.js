@@ -10,8 +10,11 @@ import NotFound from '@/components/GeneralView/NotFoundPage'
 // Model routes
 import userRoutes from './children/user'
 import settingRoute from './children/setting'
-import sprintRoute from './children/sprint'
 import questionRoute from './children/question'
+import questionsRoute from './children/questions'
+import training_pointRoute from "./children/training_point";
+import training_pointsRoute from "./children/training_points";
+import note_bookRoute from "./children/note_book";
 
 Vue.use(Router)
 
@@ -29,28 +32,31 @@ let pageRoutes = [
 ]
 
 let adminRoutes = {
-  path: '/',
+  path: "/",
   component: RootLayout,
-  redirect: 'dashboard',
-  name: 'app',
+  redirect: "dashboard",
+  name: "app",
   meta: {
-    authRequired: false
+    authRequired: false,
   },
   children: [
     {
-      path: 'dashboard',
-      component: () => import('@/components/Views/Overview'),
-      name: 'dashboard',
+      path: "dashboard",
+      component: () => import("@/components/Views/Overview"),
+      name: "dashboard",
       meta: {
-        title: 'Dashboard'
-      }
+        title: "Dashboard",
+      },
     },
-    ...sprintRoute,
     ...settingRoute,
     ...questionRoute,
+    ...questionsRoute,
+    ...training_pointRoute,
+    ...training_pointsRoute,
+    ...note_bookRoute,
     ...userRoutes,
-  ]
-}
+  ],
+};
 
 const router = new Router({
   routes: [

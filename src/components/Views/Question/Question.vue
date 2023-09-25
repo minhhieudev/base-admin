@@ -1,7 +1,7 @@
-<template>
+  <template>
   <div>
-    <div class="question" @click="openDetailQuestion">
-      <div class="info">
+    <div class="question" @click="openDetailQuestion($event)" >
+     <div class="info" >
         <el-avatar :size="avatarSize" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"></el-avatar>
         
 
@@ -11,9 +11,9 @@
       </div>
 
       <!-- Hiển thị nội dung câu hỏi -->
-      <div class="content" v-if="showFullContent">
+      <div class="content" v-if="showFullContent" >
         {{ content }}
-        <div class="toggle-button-full-content" v-if="content.length > maxContentLength" @click="toggleContent">
+        <div class="toggle-button-full-content" v-if="content.length > maxContentLength" @click.stop="toggleContent">
           {{ showFullContent ? 'Thu gọn' : 'xem thêm' }}
         </div>
       </div>
@@ -27,8 +27,8 @@
       <!-- Hiển thị biểu tượng lượt thích và biểu tượng phản hồi -->
       <div class="actions">
         <div class="like-container">
-          <i class="fa fa-heart-o" aria-hidden="true"></i>
-          <span class="likes">{{ likes }}</span>
+          <i class="fa fa-heart-o" aria-hidden="true"  @click.stop="likeQuestion"></i>
+          <span class="likes">{{ likesCount }}</span>
         </div>
         <div class="comment-container">
           <el-icon style="color: rgb(24, 61, 228);" class="el-icon-chat-dot-square"></el-icon>
@@ -49,13 +49,12 @@
             class="reply-input" 
           />
         </div>
-        <div class="send-button">
-          <i class="fa fa-paper-plane" @click="sendReply" aria-hidden="true"></i>
+        <div class="send-button mr-3">
+          <i class="fa fa-paper-plane" style="color:rgb(22, 77, 228)" @click="sendReply" aria-hidden="true"></i>
         </div>
       </div>
     </div>
-     <detailQuestionVue
-  :isInviteMemberVisible="isInviteMemberVisible"
+     <detailQuestionVue ref="childRef"
   :id="id"
 
   :content="content"
@@ -74,6 +73,8 @@
 import detailQuestionVue from './detailQuestion.vue'; 
 import { formatRelative, parseISO } from 'date-fns';
 import { format } from 'date-fns';
+import { updateLike } from '../../../api/question';
+import { id } from 'date-fns/locale';
 
 
 
@@ -90,10 +91,11 @@ export default {
   data() {
     return {
       showFullContent: false,
-      maxContentLength: 200,
+      maxContentLength: 350,
       showPopup: false,
       replyText: "",
-      isInviteMemberVisible: false, 
+      isInviteMemberVisible: false,
+      likesCount: 0,
     };
   },
   computed: {
@@ -115,10 +117,15 @@ export default {
         return this.content;
       }
     },
+    
   },
   components: {
     detailQuestionVue,
   },
+  created() {
+  this.likesCount = this.likes;
+},
+
   methods: {
     formatDate(date) {
     if (date) {
@@ -126,13 +133,29 @@ export default {
     } else {
       return '';
     }
+    },
+    
+    async likeQuestion() {
+    // Tăng lượt thích và cập nhật giá trị mới
+    this.likesCount++;
+    console.log(this.id);
+
+    try {
+      // Gửi yêu cầu lên máy chủ để cập nhật lượt thích
+      await updateLike(this.id);
+      console.log("Cập nhật lượt thích thành công");
+    } catch (error) {
+      console.error("Lỗi khi cập nhật lượt thích: ", error);
+    }
   },
     toggleContent() {
       this.showFullContent = !this.showFullContent;
     },
-    openDetailQuestion() {
-      this.isInviteMemberVisible = !this.isInviteMemberVisible;
-},
+    openDetailQuestion(event) {
+      // Ngăn chặn sự kiện click lan tỏa ra bên ngoài
+      event.stopPropagation();
+      this.$refs.childRef.childFunction(); // Gọi hàm ở component con
+    },
 
 
     onReplyInputChange() {
@@ -174,6 +197,7 @@ export default {
 .author {
   margin-left: 5px;
   font-weight: bold;
+  color:rgb(7, 131, 7);
 }
 
 .date {

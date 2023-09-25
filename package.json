@@ -20,6 +20,7 @@
     "core-js": "^2.6.11",
     "date-fns": "^2.30.0",
     "element-ui": "^2.15.7",
+    "emoji-mart-vue": "^2.6.6",
     "idle-js": "^1.2.0",
     "lodash": "^4.17.15",
     "mime-types": "^2.1.34",

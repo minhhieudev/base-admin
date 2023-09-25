@@ -1,13 +1,17 @@
 import request from "@/utils/request";
 const modelCode = 'users'
 
-export function getCollection (data) {
+export function getCollection(data) {
   return request({
     url: `/${modelCode}/collection`,
-    method: 'post',
-    data
-  })
+    method: "post",
+    data: {
+      ...data,
+      role: data.role, // Truyền vai trò từ frontend lên API
+    },
+  });
 }
+
 
 export function getAll () {
   return request({

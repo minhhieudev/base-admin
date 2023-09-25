@@ -1,10 +1,14 @@
 <template>
   <div class="chatroom">
     <el-container>
-      <el-header style="height: 56px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between;">
-        <div class="header__info">
-          <p class="header__title">{{ selectedRoom.name }}</p>
-          <span class="header__description">{{ selectedRoom.description }}</span>
+      <el-header style="height: 120px; padding: 0; position: relative;">
+        <!-- Ảnh nền -->
+        <div class="background-image">
+        </div>
+        <!-- Avatar -->
+        <div class="logo">
+          <el-avatar :size="150" :src="logo"></el-avatar>
+
         </div>
       </el-header>
       <el-main style="height: calc(100% - 56px); padding: 11px;">
@@ -14,27 +18,28 @@
 
           </div>
           <div class="input-box">
-            <input
+            <input 
               v-model="replyText"
                @input="onReplyInputChange"
               placeholder="Nhập nội dung câu hỏi mà bạn muốn hỏi Cố vấn học tập..."
-              class="reply-input" 
+              class="reply-inputs" 
               @click="showQuestionPopup"
             />
           </div>
         </div>
         <el-scrollbar wrap-class="question-list">
       <question
-            v-for="mes in questions"
-            :key="mes.id"
-            :content="mes.content"
-            :photoURL="typeof mes.photoURL === 'string' ? mes.photoURL : ''"
-            :user="mes.user.fullname"
-            :createdAt="formatDate(mes.createdAt)"
-            :likes="mes.likes"
-            :comments="mes.comments"
-            :id="mes._id"
-          />
+  v-for="mes in questions"
+  :key="mes._id"
+  :content="mes.content"
+  :photoURL="typeof mes.photoURL === 'string' ? mes.photoURL : ''"
+  :user="mes.user.fullname"
+  :createdAt="formatDate(mes.createdAt)"
+  :likes="mes.likes"
+  :comments="mes.comments"
+  :id="mes._id"
+/>
+
     </el-scrollbar>
       </el-main>
     </el-container>
@@ -43,14 +48,14 @@
     <el-dialog class="custom-dialog" title="Nhập nội dung câu hỏi" :visible.sync="isQuestionPopupVisible">
       <!-- Sử dụng textarea thay vì el-input để có vùng nhập lớn hơn -->
       <div class="el-dialog__body">
-        <textarea
+        <!-- <textarea
           v-model="questionText"
           class="question-textarea"
           placeholder="Nhập nội dung câu hỏi..."
-        ></textarea>
+        ></textarea> -->
 
-        <!-- <ckeditor  :config="ckEditorConfig" v-model="questionText" 
-          placeholder="Nhập nội dung câu hỏi..."></ckeditor> -->
+        <ckeditor  :config="ckEditorConfig" v-model="questionText" 
+         ></ckeditor>
         <div class="button-container-tall">
           <!-- Thêm icon cho các button bằng cách sử dụng thuộc tính icon của el-button -->
           <el-button @click="isQuestionPopupVisible = false" class="close-button" icon="el-icon-close">Đóng</el-button>
@@ -68,16 +73,16 @@ import Question from './Question.vue';
 import { saveData, getCollection } from '@/api/question'
 import { getAll } from '@/api/question'; // Import các phương thức từ tệp api/question.js
 import { format } from 'date-fns'; 
+
+
+
 const ModelCode = 'question';
 
 
 export default {
   data() {
     return {
-      selectedRoom: {
-        name: "Phòng chat mẫu",
-        description: "Mô tả phòng chat mẫu",
-      },
+      logo: "https://upload.wikimedia.org/wikipedia/vi/2/2e/Dai_hoc_phu_yen_logo.png",
         replyText: "",
 
       inputValue: "",
@@ -92,13 +97,17 @@ export default {
     Question,
   },
   created() {
-  console.log("Component created");
   this.loadQuestions();
 },
   computed: {
     avatarSize() {
       return 'small';
     },
+    cleanQuestionText() {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = this.questionText;
+    return tempDiv.textContent || tempDiv.innerText || '';
+  },
   },
   methods: {
     showInviteDialog() {
@@ -116,7 +125,6 @@ export default {
     onReplyInputChange() {
     // Xử lý khi người dùng nhập vào ô phản hồi
     // Ví dụ: có thể kiểm tra độ dài hoặc thực hiện xử lý khác theo nhu cầu
-    console.log('123');
   },
     submitQuestion() {
   if (this.questionText.trim() !== "") {
@@ -124,11 +132,10 @@ export default {
     // Trong actions hoặc component khác
 
     const newQuestion = {
-      content: this.questionText,
+      content: this.cleanQuestionText,
       user: this.$store.getters.user._id
       
     };
-    console.log(this.questionText);
     // Lưu câu hỏi vào cơ sở dữ liệu bằng cách gọi API
     saveData(newQuestion)
       .then((response) => {
@@ -138,7 +145,8 @@ export default {
 
           if (responseData && responseData.success) {
             // Nếu lưu thành công, thêm câu hỏi mới vào danh sách câu hỏi
-            this.questions.unshift(responseData.question);
+            this.loadQuestions();
+            
 
             // Xóa nội dung câu hỏi sau khi đã tạo thành công
             this.questionText = "";
@@ -166,10 +174,9 @@ export default {
 loadQuestions() {
   getAll()
     .then((response) => {
-      console.log('Response from API:', response); // In ra response
       if (response && response.data && response.data.success) {
         this.questions = response.data.questions;
-        console.log("Dữ liệu câu hỏi đã được tải:", this.questions);
+        this.questions = this.questions.reverse();
       } else {
         console.error("Không thành công: ", response.data);
       }
@@ -240,14 +247,18 @@ loadQuestions() {
   border-radius: 10px; /* Bo tròn các góc của ô nhập phản hồi */
   padding: 5px;
   background-color: white; /* Màu nền của ô nhập phản hồi */
+  width: 70%;
+ margin-left: auto;
+
 }
 
 .input-box {
   flex-grow: 1;
+
   background-color: white; /* Đặt màu nền của ô nhập phản hồi giống màu nền của phần câu hỏi */
 }
 
-.reply-input {
+.reply-inputs {
   width: 100%;
   padding: 5px;
   border: none;
@@ -260,5 +271,29 @@ loadQuestions() {
 .avatar {
   margin-right: 10px; /* Khoảng cách giữa avatar và nút */
   /* Đặt kích thước, ảnh và bất kỳ kiểu hiển thị avatar nếu cần */
+}
+
+
+
+.background-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../../assets/8.jpg'); /* Thay đổi đường dẫn đến ảnh nền của bạn */
+  background-size: cover;
+  background-position: center;
+  /* filter: blur(10px); Hiệu ứng mờ ảnh nền */
+  z-index: 99; /* Để đảm bảo ảnh nền nằm sau phần content */
+  opacity: 1; /* Điều chỉnh độ trong suốt của ảnh nền */
+  border-radius: 25px;
+}
+
+/* CSS cho avatar */
+.logo {
+  position: absolute;
+  bottom: -60px; /* Điều chỉnh vị trí avatar xuống phía dưới */
+  left: 10%;
+  transform: translateX(-60%);
+   z-index: 100;
 }
 </style>

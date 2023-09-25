@@ -39,3 +39,21 @@ export function saveData(data) {
     data,
   });
 }
+
+
+export function updateLike(id) {
+  return request({
+    url: `/${modelCode}/${id}`, // Địa chỉ API để cập nhật lượt thích
+    method: "post",
+  });
+}
+export function updateComments(id, answersCount) {
+  return request({
+    url: `/${modelCode}/${id}/count`,
+    // Địa chỉ API để cập nhật số câu trả lời
+    method: "post",
+    data: {
+      answersCount: answersCount, // Thêm answersCount vào dữ liệu gửi đi
+    },
+  });
+}

@@ -5,10 +5,7 @@ export default {
       docs: [],
       total: 0
     },
-    sprints: {
-      docs: [],
-      total: 0
-    },
+   
     answers: {
       docs: [],
       total: 0
@@ -18,7 +15,6 @@ export default {
       total: 0
     },
 
-    allSprints: [],
     allUsers: [],
     allQuestions:[],
     allAnswers:[],

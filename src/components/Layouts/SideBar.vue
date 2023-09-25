@@ -4,23 +4,12 @@
       <div class="text-center">
       </div>
       <div class="flex" :class="isSidebarExpand ? 'ml-2' : 'mt-2'">
-        <img v-if="!$isMobile" src="@/assets/logo.png" alt="logo" height="60" />
-        <p style="color: aqua;">PHẦN MỀM CỐ VẤN HỌC TẬP</p>
+        <img v-if="!$isMobile" src="@/assets/1.jpg" alt="logo" height="60" />
+        <p style="color: rgb(3, 61, 61);font-weight: bold;">PHẦN MỀM CỐ VẤN HỌC TẬP</p>
         <!-- <el-button circle plain type="primary" :icon="isSidebarExpand ? 'el-icon-arrow-left' : 'el-icon-arrow-right'" @click="handleSidebarExpand" /> -->
       </div>
     </div>
-    <div style="background-color: antiquewhite; border-radius: 15px;">
-      CỐ VẤN HỌC TẬP
-    </div>
-    <div class="wrapper-sidebar-menu">
-      <ul class="sidebar-menu">
-       <li>IE_Võ Minh Hiếu</li>
-       <li>IE_Cố vấn học tập</li>
-      </ul>
-    </div>
-    <div style="background-color: rgb(156, 230, 243); border-radius: 15px;">
-      QUẢN TRỊ CHUNG
-    </div>
+    
     <div class="wrapper-sidebar-menu">
       <ul class="sidebar-menu">
         <sidebar-item
@@ -70,7 +59,7 @@ export default {
     }
   },
   created() {
-    let role = this.$store.getters.user.role || 'employee'
+    let role = this.$store.getters.user.role || 'student'
     this.sidebars = sidebars[role]
   },
   methods: {
@@ -113,7 +102,7 @@ export default {
   top: 0;
   left: 0;
   height: calc(100% - 40px);
-  background: #fff;
+  background-image: url(../../../src/assets/4.jpg);
   z-index: 1010;
   &.w-180 {
     width: $sidebar-size-expand;

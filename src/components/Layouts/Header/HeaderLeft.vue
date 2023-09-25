@@ -52,11 +52,11 @@ export default {
   },
   computed: {
     pageTitle() {
-      console.log(this.count);
+      //console.log(this.count);
       return this.$store.getters.pageTitle
     },
     activeItem () {
-      console.log(this.count);
+      //console.log(this.count);
       let itemActive = sidebars[this.$store.getters.user.role].find(item => item.url == this.$router.history.current.path)
       return itemActive || { name: '' }
     },

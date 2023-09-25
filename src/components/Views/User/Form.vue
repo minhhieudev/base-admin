@@ -44,8 +44,8 @@
             <el-select
               v-model="form.role"
               placeholder="Select">
-              <el-option label="Thành viên" value="employee"></el-option>
-              <el-option label="Quản trị nhóm" value="leader"></el-option>
+              <el-option label="Sinh viên" value="student"></el-option>
+              <el-option label="Cố vấn" value="consultant"></el-option>
               <el-option label="Quản trị" value="admin"></el-option>
             </el-select>
           </el-form-item>
@@ -66,7 +66,7 @@ export default {
     return {
       form: {
         address: {},
-        role: 'employee'
+        role: 'student'
       },
       hasChange: false,
     }
@@ -128,6 +128,7 @@ export default {
       this.handleSave(true);
     },
     handleSave: function (isContinue = false) {
+      console.log(this.form);
       this.$refs.form_data.validate(async (valid) => {
         if (valid == false) {
           return false
@@ -135,6 +136,7 @@ export default {
           this.$wrLoading(true)
           let currentId
           await saveData(this.form).then(({data}) => {
+            console.log(data.doc._id);
             if (data.success == true) {
               this.loadAllUsers()
               if (isContinue === false) {
@@ -165,6 +167,9 @@ export default {
         }
       })
     },
+    
+
+
   }
 }
 </script>

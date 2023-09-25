@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar app-navbar px-4 bg-white v2-theme">
+  <header class="navbar app-navbar px-4 bg-white v2-theme custom">
     <header-left />
     <!-- <Search /> -->
     <div class="ml-auto mr-1" v-if="!$isMobile">
@@ -10,7 +10,7 @@
 
 <script>
 import AccountInfo from './Header/AccountInfo.vue'
-import HeaderLeft from './Header/HeaderLeft.vue'
+import HeaderLeft from './Header/HeaderLeft'
 import Search from './Header/Search.vue'
 export default {
   components: {AccountInfo, HeaderLeft, Search},
@@ -141,4 +141,8 @@ header {
   color: #409eff;
 }
 
+
+.custom{
+  background-image: url('https://img.freepik.com/free-vector/modern-flowing-colorful-wave-banner-background_1035-19861.jpg?w=2000');
+}
 </style>

@@ -3,8 +3,12 @@
     <div class="info">
       <el-avatar :size="avatarSize" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80">
       </el-avatar>
-      <span class="author">{{ user }}</span>
-              <span class="date">{{ createdAt }}</span>
+      <div>
+        <div>
+          <span class="author">{{ user }}</span>
+          <span class="date">{{ createdAt }}</span>
+        </div>
+      </div>
 
     </div>
     <div class="content">{{ content }}</div>
@@ -82,6 +86,8 @@ export default {
 .author {
   margin-left: 5px;
   font-weight: bold;
+  color:rgb(7, 131, 7);
+
 }
 
 .date {
